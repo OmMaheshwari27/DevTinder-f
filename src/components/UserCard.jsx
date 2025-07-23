@@ -1,4 +1,7 @@
 import React from 'react'
+import testImage from '../assets/test.jpg';
+
+<img src={testImage} alt="test" />
 
 const UserCard = ({user}) => {
     console.log(user);
@@ -15,7 +18,7 @@ const UserCard = ({user}) => {
     <div className="card  bg-accent w-96 shadow-sm">
   <figure>
     <img
-      src={photoUrl}
+      src={testImage}
       alt="photo" />
   </figure>
   <div className="card-body">

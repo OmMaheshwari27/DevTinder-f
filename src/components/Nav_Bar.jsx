@@ -5,11 +5,11 @@ import { BASE_URL } from "../utils/constant";
 import { removeUser } from "../utils/userSlice";
 const Nav_Bar = () => {
     const user = useSelector((store) => store.user);
-    const dispatch=useDispatch();
-    const navigate=useNavigate();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const handleLogout = async () => {
         try {
-             await axios.post(BASE_URL + "/logout", {}, {
+            await axios.post(BASE_URL + "/logout", {}, {
                 withCredentials: true,
             })
             dispatch(removeUser());
@@ -54,7 +54,12 @@ const Nav_Bar = () => {
                                     <span className="badge">New</span>
                                 </Link>
                             </li>
-                            <li><a>Settings</a></li>
+                            <li>
+                                <Link to="/connections" className="justify-between">
+                                    connections
+                                    <span className="badge">New</span>
+                                </Link>
+                            </li>
                             <li><a onClick={handleLogout}>Logout</a></li>
                         </ul>
                     </div>
