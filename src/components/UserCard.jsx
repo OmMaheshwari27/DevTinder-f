@@ -9,6 +9,7 @@ import { BASE_URL } from '../utils/constant';
 
 const UserCard = ({ user }) => {
   const dispatch=useDispatch();
+
   const handleRequest = async (status, _id) => {
     try {
       const res = await axios.post(BASE_URL + "/request/send/" + status + "/" + _id,
@@ -22,13 +23,14 @@ const UserCard = ({ user }) => {
     }
   }
 
-  console.log(user);
+  //console.log(user);
   const { _id, firstName, lastName, age, gender, skills, about, photoUrl } = user;
+  console.log("PHOTO URL:", photoUrl);
   return (
     <div className="card  bg-accent w-96 shadow-sm">
       <figure>
         <img
-          src={testImage}
+          src={photoUrl}
           alt="photo" />
       </figure>
       <div className="card-body">

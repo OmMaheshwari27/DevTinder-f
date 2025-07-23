@@ -39,7 +39,7 @@ const dispatch=useDispatch();
     }
     return (
         <div className='flex justify-center'>
-            <UserCard user={{firstName,lastName,age,about,gender}}/>
+            <UserCard user={{firstName,lastName,age,about,gender,photoUrl}}/>
         <div className='flex justify-center mx-10'>
             <div className="card card-border bg-base-300 w-96 text-white">
                 <div className="card-body">
