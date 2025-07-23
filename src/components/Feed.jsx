@@ -7,6 +7,8 @@ import { BASE_URL } from '../utils/constant';
 
 
 const Feed = () => {
+
+
   const dispatch = useDispatch();
   const feed = useSelector((store) => store.feed);
 
@@ -28,11 +30,13 @@ const Feed = () => {
   }, [dispatch, feed]);
 
   return (
-    feed && feed.length > 0 && (
-      <div className='flex justify-center'>
+    <div className="flex justify-center items-center h-full">
+      {feed && feed.length > 0 ? (
         <UserCard user={feed[0]} />
-      </div>
-    )
+      ) : (
+        <p className="text-xl font-semibold text-white-600 my-20">No more user found right now</p>
+      )}
+    </div>
   );
 };
 

@@ -26,7 +26,7 @@ const Requests = () => {
         const res = await axios.get(BASE_URL + "/user/requests/recieved", {
           withCredentials: true,
         });
-        console.log(res);
+       // console.log(res);
         dispatch(addRequests(res.data.data));
       } catch (err) {
         console.error("Failed to fetch request", err);
