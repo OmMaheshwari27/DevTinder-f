@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { BASE_URL } from '../utils/constant';
 import { useDispatch, useSelector } from 'react-redux';
 import { addConnections } from '../utils/connectionSlice';
+import { Link } from 'react-router-dom';
 
 const Connections = () => {
   const dispatch = useDispatch();
@@ -11,16 +12,15 @@ const Connections = () => {
   useEffect(() => {
     const fetchConnection = async () => {
       try {
-        const res = await axios.get(BASE_URL + "/user/connections", {
+        const res = await axios.get(BASE_URL + "/connections", {
           withCredentials: true,
         });
-        console.log(res.data.data);
+        //console.log(res.data.data);
         dispatch(addConnections(res.data.data));
       } catch (err) {
         console.error("Failed to fetch connections", err);
       }
     };
-
     fetchConnection();
   }, [dispatch]);
 
@@ -56,6 +56,9 @@ const Connections = () => {
             )}
             <p>{connection.about}</p>
           </div>
+            <Link to={"/chat/"+connection._id}>
+            <button className=' btn btn-primary'>chat</button>
+            </Link>
         </div>
       ))}
     </div>

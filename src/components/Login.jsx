@@ -6,139 +6,166 @@ import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/constant';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
-
-
 const Login = () => {
-    const [email, setEmail] = useState("anmol2@gmail.com");
-    const [password, setPassword] = useState("Anmol@123");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [errormsg, setError] = useState("");
     const [isSignup, setIsSignup] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
-            const res = await axios.post(`${BASE_URL}/login`, {
-                email,
-                password,
-            }, { withCredentials: true });
-
+            const res = await axios.post(
+                `${BASE_URL}/login`,
+                { email, password },
+                { withCredentials: true }
+            );
             dispatch(addUser(res.data));
-            return navigate('/');
+            navigate('/');
         } catch (err) {
-            console.error(err);
             setError(err.response?.data || "Login failed");
         }
     };
 
     const handleSignup = async () => {
         try {
-            const res = await axios.post(`${BASE_URL}/signup`, {
-                email,
-                password,
-                firstName,
-                lastName,
-            }, { withCredentials: true });
-
+            const res = await axios.post(
+                `${BASE_URL}/signup`,
+                { email, password, firstName, lastName },
+                { withCredentials: true }
+            );
             dispatch(addUser(res.data.data));
-            return navigate('/profile');
+            navigate('/profile');
         } catch (err) {
-            console.error(err);
             setError(err.response?.data || "Signup failed");
         }
     };
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <div className="card card-border bg-base-300 w-96 text-white shadow-xl">
-                <div className="card-body">
-                    <h2 className="card-title justify-center">{isSignup ? "Sign Up" : "Login"}</h2>
+        <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] px-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 max-w-6xl w-full">
 
-                    {isSignup && (
-                        <>
-                            <fieldset className="fieldset">
-                                <legend className="fieldset-legend">First Name</legend>
-                                <input
-                                    type="text"
-                                    value={firstName}
-                                    className="input"
-                                    placeholder="Enter first name"
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                />
-                            </fieldset>
+                {/* FORM */}
+                <div className="w-full max-w-md bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
+                    <h1 className="text-gray-900 text-3xl font-semibold mb-8">
+                        {isSignup ? "Create an account" : "Login to your account"}
+                    </h1>
 
-                            <fieldset className="fieldset">
-                                <legend className="fieldset-legend">Last Name</legend>
+                    <div className="space-y-6">
+
+                        {isSignup && (
+                            <>
+                                <div>
+                                    <label className="text-gray-700 text-sm mb-2 block">
+                                        First Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={firstName}
+                                        onChange={(e) => setFirstName(e.target.value)}
+                                        placeholder="Enter first name"
+                                        className="w-full bg-gray-100 text-gray-900 px-4 py-3 border border-gray-300 rounded-lg outline-none focus:bg-white focus:border-[#373e40] focus:ring-2 focus:ring-[#373e40]/20 transition"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="text-gray-700 text-sm mb-2 block">
+                                        Last Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={lastName}
+                                        onChange={(e) => setLastName(e.target.value)}
+                                        placeholder="Enter last name"
+                                        className="w-full bg-gray-100 text-gray-900 px-4 py-3 border border-gray-300 rounded-lg outline-none focus:bg-white focus:border-[#373e40] focus:ring-2 focus:ring-[#373e40]/20 transition"
+                                    />
+                                </div>
+                            </>
+                        )}
+
+                        <div>
+                            <label className="text-gray-700 text-sm mb-2 block">
+                                Email
+                            </label>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter email"
+                                className="w-full bg-gray-100 text-gray-900 px-4 py-3 border border-gray-300 rounded-lg outline-none focus:bg-white focus:border-[#373e40] focus:ring-2 focus:ring-[#373e40]/20 transition"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="text-gray-700 text-sm mb-2 block">
+                                Password
+                            </label>
+
+                            <div className="relative">
                                 <input
-                                    type="text"
-                                    value={lastName}
-                                    className="input"
-                                    placeholder="Enter last name"
-                                    onChange={(e) => setLastName(e.target.value)}
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="Enter password"
+                                    className="w-full bg-gray-100 text-gray-900 px-4 py-3 border border-gray-300 rounded-lg outline-none focus:bg-white focus:border-[#373e40] focus:ring-2 focus:ring-[#373e40]/20 transition pr-12"
                                 />
-                            </fieldset>
-                        </>
+
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                >
+                                    {showPassword ? (
+                                        <EyeSlashIcon className="w-5 h-5" />
+                                    ) : (
+                                        <EyeIcon className="w-5 h-5" />
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {errormsg && (
+                        <p className="text-red-500 text-sm mt-4 text-center">
+                            {errormsg}
+                        </p>
                     )}
 
-                    <fieldset className="fieldset w-full">
-                        <legend className="fieldset-legend">Email ID</legend>
-                        <input
-                            type="email"
-                            value={email}
-                            className="input"
-                            placeholder="Enter your email"
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </fieldset>
+                    <button
+                        onClick={isSignup ? handleSignup : handleLogin}
+                        className="mt-6 w-full py-3 rounded-lg bg-[#373e40] hover:bg-[#2f3537] text-white transition duration-200"
+                    >
+                        {isSignup ? "Sign Up" : "Login"}
+                    </button>
 
-                    <fieldset className="relative w-full">
-                        <legend className="text-sm text-white mb-1">Password</legend>
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Enter your password"
-                            className="input w-full pr-12 text-white"
-                        />
-                        <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
-                        >
-                            {showPassword ? (
-                                <EyeSlashIcon className="w-5 h-5" />
-                            ) : (
-                                <EyeIcon className="w-5 h-5" />
-                            )}
-                        </button>
-                    </fieldset>
-
-                    {errormsg && <p className="text-red-500 text-sm text-center mt-2">{errormsg}</p>}
-
-                    <div className="card-actions flex flex-col items-center mt-4 gap-3">
-                        <button
-                            className="btn btn-primary w-full"
-                            onClick={isSignup ? handleSignup : handleLogin}
-                        >
-                            {isSignup ? "Sign Up" : "Login"}
-                        </button>
-
-                        <button
-                            className="text-sm text-blue-300 hover:underline"
+                    <p className="text-sm text-gray-600 mt-6 text-center">
+                        {isSignup ? "Already have an account?" : "New here?"}
+                        <span
                             onClick={() => {
                                 setIsSignup(!isSignup);
                                 setError("");
                             }}
+                            className="text-[#373e40] font-medium underline cursor-pointer ml-1"
                         >
-                            {isSignup
-                                ? "Already have an account? Login"
-                                : "New here? Create an account"}
-                        </button>
-                    </div>
+                            {isSignup ? "Login" : "Create an account"}
+                        </span>
+                    </p>
                 </div>
+
+                {/* IMAGE */}
+                <div className="hidden lg:flex justify-center">
+                    <img
+                        src="https://readymadeui.com/login-image.webp"
+                        className="w-full max-w-md object-contain"
+                        alt="login"
+                    />
+                </div>
+
             </div>
         </div>
     );
